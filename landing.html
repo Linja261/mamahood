@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mamahood — Finde dein Dorf</title>
+    <meta name="description" content="Andere Mütter treffen, die mehr als nur über Windeln reden wollen. Interessensbasiert, zeitlich flexibel, in deiner Nähe.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        serif: ['Source Serif 4', 'Georgia', 'serif'],
+                        mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#FAFAF8', 100: '#F5F3EF', 200: '#E5E2DB',
+                            300: '#d6d3d1', 400: '#a8a29e', 500: '#78716c',
+                            600: '#555555', 700: '#44403c', 800: '#292524', 900: '#1A1A1A',
+                        },
+                        violet: {
+                            50: '#f6f4f9', 100: '#ece8f2', 200: '#d9d1e5',
+                            300: '#9a82b5', 400: '#7b6ba5', 500: '#6b5691', 700: '#463863',
+                        },
+                        amber: {
+                            50: '#fdf5f0', 100: '#fae8de', 200: '#ecb08e',
+                            400: '#c27a52', 500: '#D4714E', 600: '#a86340', 700: '#73402e',
+                        },
+                        emerald: {
+                            50: '#f2f7f4', 100: '#e0ede6', 300: '#96bfaa',
+                            500: '#5b8a72', 600: '#476f5b', 700: '#31493d',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #44403c; }
+        .fade-up { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .icon-box {
+            width: 48px; height: 48px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .icon-box-lg {
+            width: 56px; height: 56px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .hero-icon {
+            width: 72px; height: 72px; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .quote-card { position: relative; }
+        .quote-card::before {
+            content: '\201C';
+            font-family: 'Source Serif 4', Georgia, serif;
+            position: absolute; top: -4px; left: 20px;
+            font-size: 52px; color: #d9d1e5; line-height: 1;
+        }
+    </style>
+</head>
+<body class="bg-stone-50">
+
+    <!-- Hero -->
+    <section class="min-h-[90vh] flex flex-col items-center justify-center text-center px-6 py-20">
+        <div class="max-w-2xl mx-auto">
+            <div class="hero-icon bg-violet-100 mx-auto mb-8">
+                <i data-lucide="home" class="w-8 h-8 text-violet-400"></i>
+            </div>
+            <h1 class="font-serif text-4xl md:text-5xl font-700 tracking-tight mb-5 leading-tight text-stone-900">
+                Du brauchst ein Dorf.<br class="hidden md:block">
+                <span class="text-violet-400">Wir helfen dir, es zu finden.</span>
+            </h1>
+            <p class="text-lg text-stone-600 mb-10 max-w-lg mx-auto leading-relaxed font-400">
+                Andere Mütter treffen, die mehr als nur über Windeln reden wollen. Interessensbasiert, zeitlich flexibel, in deiner Nähe.
+            </p>
+
+            <!-- Email Signup -->
+            <div class="max-w-md mx-auto">
+                <form id="signup-form" class="flex flex-col sm:flex-row gap-3" onsubmit="handleSignup(event)">
+                    <input type="email" id="email-input" required placeholder="Deine E-Mail-Adresse"
+                        class="flex-1 px-5 py-4 rounded-2xl border border-stone-200 focus:border-violet-300 focus:outline-none text-sm bg-white shadow-sm font-400">
+                    <button type="submit"
+                        class="bg-violet-400 hover:bg-violet-500 text-white font-600 px-6 py-4 rounded-2xl text-sm shadow-lg shadow-violet-400/20 transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2">
+                        <span>Erinnere mich</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+                <p class="text-xs text-stone-400 mt-3">Kein Spam. Nur eine Nachricht, wenn mamahood startet.</p>
+            </div>
+
+            <!-- Success Message (hidden) -->
+            <div id="signup-success" class="hidden max-w-md mx-auto bg-emerald-500 text-white rounded-2xl p-5 mt-4">
+                <div class="flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    <p class="font-600">Du bist dabei!</p>
+                </div>
+                <p class="text-sm opacity-90 mt-1">Wir melden uns, sobald mamahood startet.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="py-20 px-6">
+        <div class="max-w-3xl mx-auto">
+            <div class="fade-up">
+                <p class="text-xs font-600 text-violet-400 uppercase tracking-wider mb-3 font-mono">Das Problem</p>
+                <h2 class="font-serif text-2xl md:text-3xl font-600 mb-6 leading-tight text-stone-900">In keinem Format geht es je um die Mutter.</h2>
+                <p class="text-stone-600 leading-relaxed mb-10 max-w-xl text-[15px]">
+                    PEKiP, Geburtsvorbereitung, Krabbelgruppe. Du triffst andere Mütter, aber das Matching ist Zufall. Es geht ums Kind: Schlafrhythmus, Stuhlgang, Meilensteine. Nie um dich. Nie um das, was dich ausmacht, neben Mama sein.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-5 fade-up">
+                <div class="bg-white rounded-2xl p-6 border border-stone-200">
+                    <div class="icon-box bg-amber-50 mb-4">
+                        <i data-lucide="shuffle" class="w-5 h-5 text-amber-500"></i>
+                    </div>
+                    <p class="text-sm font-600 text-stone-900 mb-2">Matching nach Geburtstermin</p>
+                    <p class="text-xs text-stone-400 leading-relaxed">Dein Kind ist im März geboren? Hier sind 12 andere März-Mütter. Ob ihr euch etwas zu sagen habt: Glückssache.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 border border-stone-200">
+                    <div class="icon-box bg-amber-50 mb-4">
+                        <i data-lucide="clock" class="w-5 h-5 text-amber-500"></i>
+                    </div>
+                    <p class="text-sm font-600 text-stone-900 mb-2">Zeiten passen nie</p>
+                    <p class="text-xs text-stone-400 leading-relaxed">Du arbeitest wieder und hast ab 15 Uhr Zeit. Die anderen Mütter im Kurs? Vormittags. Pech gehabt.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 border border-stone-200">
+                    <div class="icon-box bg-amber-50 mb-4">
+                        <i data-lucide="user-x" class="w-5 h-5 text-amber-500"></i>
+                    </div>
+                    <p class="text-sm font-600 text-stone-900 mb-2">Kontakt verliert sich</p>
+                    <p class="text-xs text-stone-400 leading-relaxed">Selbst wenn du jemand Tolles triffst: Der Alltag frisst den Kontakt. Keiner schreibt zuerst. Beide warten.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dorf-CTA -->
+    <section class="py-16 px-6 bg-violet-50">
+        <div class="max-w-2xl mx-auto text-center fade-up">
+            <p class="font-serif text-xl md:text-2xl text-stone-800 leading-relaxed mb-4 font-500">
+                "Du brauchst ein ganzes Dorf, um dein Kind zu erziehen"
+            </p>
+            <p class="text-sm text-stone-500 mb-6">
+                besagt das wunderbare Buch <em>artgerecht</em> von Nicola Schmidt.<br>
+                Aber wie findest du dein Dorf? <strong class="text-violet-500">Mit uns.</strong>
+            </p>
+            <button onclick="document.getElementById('email-input').focus(); window.scrollTo({top: 0, behavior: 'smooth'})"
+                class="bg-violet-400 hover:bg-violet-500 text-white font-600 px-8 py-4 rounded-2xl text-sm shadow-lg shadow-violet-400/20 transition-all active:scale-95 inline-flex items-center gap-2">
+                <span>Jetzt Platz sichern</span>
+                <i data-lucide="arrow-up" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Solution -->
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-3xl mx-auto">
+            <div class="fade-up">
+                <p class="text-xs font-600 text-violet-400 uppercase tracking-wider mb-3 font-mono">Die Lösung</p>
+                <h2 class="font-serif text-2xl md:text-3xl font-600 mb-6 leading-tight text-stone-900">Dein Dorf, basierend auf wer du bist. Nicht wann dein Kind geboren wurde.</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mt-8">
+                <div class="fade-up">
+                    <div class="bg-stone-50 rounded-2xl p-6 border border-stone-200 h-full">
+                        <div class="icon-box-lg bg-violet-100 mb-4">
+                            <i data-lucide="mountain" class="w-6 h-6 text-violet-400"></i>
+                        </div>
+                        <h3 class="font-600 text-stone-900 mb-2">Aktivitäts-Matching</h3>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            "Ich will Samstag klettern gehen." mamahood zeigt dir Mütter in der Nähe, die dasselbe wollen UND zu dir passen. Nicht Profil-Swipen, sondern gesteuerte Zufallsbegegnungen.
+                        </p>
+                    </div>
+                </div>
+                <div class="fade-up">
+                    <div class="bg-stone-50 rounded-2xl p-6 border border-stone-200 h-full">
+                        <div class="icon-box-lg bg-violet-100 mb-4">
+                            <i data-lucide="calendar-check" class="w-6 h-6 text-violet-400"></i>
+                        </div>
+                        <h3 class="font-600 text-stone-900 mb-2">Zeitfenster-Matching</h3>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Elternzeit, Teilzeit, Vollzeit: Deine Verfügbarkeit ändert sich ständig. mamahood matcht nur Mütter, die wirklich Zeit haben, wenn du Zeit hast.
+                        </p>
+                    </div>
+                </div>
+                <div class="fade-up">
+                    <div class="bg-stone-50 rounded-2xl p-6 border border-stone-200 h-full">
+                        <div class="icon-box-lg bg-violet-100 mb-4">
+                            <i data-lucide="bell-ring" class="w-6 h-6 text-violet-400"></i>
+                        </div>
+                        <h3 class="font-600 text-stone-900 mb-2">Sanfte Erinnerungen</h3>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            "Du hast Sarah seit 2 Wochen nicht geschrieben." mamahood hilft dir, Kontakt zu halten, wenn der Alltag es schwer macht. Sanft, nie nervig.
+                        </p>
+                    </div>
+                </div>
+                <div class="fade-up">
+                    <div class="bg-stone-50 rounded-2xl p-6 border border-stone-200 h-full">
+                        <div class="icon-box-lg bg-violet-100 mb-4">
+                            <i data-lucide="users" class="w-6 h-6 text-violet-400"></i>
+                        </div>
+                        <h3 class="font-600 text-stone-900 mb-2">Dein Dorf wächst</h3>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Aus einzelnen 1:1-Matches wird dein persönliches, regionales Dorf. Keine riesige Community, sondern 5-6 Mütter, die wirklich zu dir passen und in deiner Nähe wohnen.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / Quotes -->
+    <section class="py-20 px-6 bg-stone-50">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-xs font-600 text-violet-400 uppercase tracking-wider mb-8 text-center fade-up font-mono">Das kennen viele</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="quote-card bg-white rounded-2xl p-6 pt-10 border border-stone-200 fade-up">
+                    <p class="text-sm text-stone-600 leading-relaxed italic mb-4">
+                        Mein ganzes Leben steht Kopf und ich brauche jemanden zum Reden, die dasselbe durchmacht. Aber nicht nur über Babybrei.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="icon-box bg-violet-50">
+                            <i data-lucide="user" class="w-4 h-4 text-violet-300"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-600 text-stone-700">Lisa</p>
+                            <p class="text-[11px] text-stone-400">Kleinkind, 18 Monate</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="quote-card bg-white rounded-2xl p-6 pt-10 border border-stone-200 fade-up">
+                    <p class="text-sm text-stone-600 leading-relaxed italic mb-4">
+                        Ich habe im Geburtsvorbereitungskurs keine einzige Frau gefunden, mit der ich wirklich dieselben Interessen hatte.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="icon-box bg-violet-50">
+                            <i data-lucide="user" class="w-4 h-4 text-violet-300"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-600 text-stone-700">Anna</p>
+                            <p class="text-[11px] text-stone-400">Baby, 8 Monate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 px-6 bg-violet-500">
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="fade-up">
+                <div class="hero-icon bg-white/10 mx-auto mb-6">
+                    <i data-lucide="heart-handshake" class="w-8 h-8 text-white"></i>
+                </div>
+                <h2 class="font-serif text-2xl md:text-3xl font-600 text-white mb-3">Sei dabei, wenn mamahood startet.</h2>
+                <p class="text-violet-100 mb-8 max-w-md mx-auto">
+                    Wir bauen mamahood gerade. Trag dich ein und sei eine der Ersten, die ihr Dorf finden.
+                </p>
+                <form id="signup-form-bottom" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3" onsubmit="handleSignupBottom(event)">
+                    <input type="email" id="email-input-bottom" required placeholder="Deine E-Mail-Adresse"
+                        class="flex-1 px-5 py-4 rounded-2xl text-sm text-stone-700 bg-white focus:outline-none shadow-sm font-400">
+                    <button type="submit"
+                        class="bg-stone-900 hover:bg-stone-800 text-white font-600 px-6 py-4 rounded-2xl text-sm transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2">
+                        <span>Erinnere mich</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+                <div id="signup-success-bottom" class="hidden mt-4 bg-white/20 rounded-2xl p-4">
+                    <div class="flex items-center justify-center gap-2">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-white"></i>
+                        <p class="text-white font-600">Du bist dabei!</p>
+                    </div>
+                </div>
+                <p class="text-xs text-violet-200 mt-3">Kein Spam. Nur eine Nachricht zum Start.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 text-center bg-stone-50">
+        <p class="text-xs text-stone-400">mamahood · 2026</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        function handleSignup(e) {
+            e.preventDefault();
+            storeEmail(document.getElementById('email-input').value);
+            document.getElementById('signup-form').classList.add('hidden');
+            document.getElementById('signup-success').classList.remove('hidden');
+            lucide.createIcons();
+        }
+        function handleSignupBottom(e) {
+            e.preventDefault();
+            storeEmail(document.getElementById('email-input-bottom').value);
+            document.getElementById('signup-form-bottom').classList.add('hidden');
+            document.getElementById('signup-success-bottom').classList.remove('hidden');
+            lucide.createIcons();
+        }
+        function storeEmail(email) {
+            const emails = JSON.parse(localStorage.getItem('mamahood-signups') || '[]');
+            if (!emails.includes(email)) emails.push(email);
+            localStorage.setItem('mamahood-signups', JSON.stringify(emails));
+        }
+    </script>
+</body>
+</html>
