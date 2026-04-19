@@ -58,12 +58,6 @@
             display: flex; align-items: center; justify-content: center;
         }
         .quote-card { position: relative; }
-        .quote-card::before {
-            content: '\201C';
-            font-family: 'Source Serif 4', Georgia, serif;
-            position: absolute; top: -4px; left: 20px;
-            font-size: 52px; color: #d9d1e5; line-height: 1;
-        }
     </style>
 </head>
 <body class="bg-stone-50">
@@ -120,22 +114,22 @@
 
             <div class="grid md:grid-cols-3 gap-5 fade-up">
                 <div class="bg-white rounded-2xl p-6 border border-stone-200">
-                    <div class="icon-box bg-amber-50 mb-4">
-                        <i data-lucide="shuffle" class="w-5 h-5 text-amber-500"></i>
+                    <div class="icon-box bg-violet-100 mb-4">
+                        <i data-lucide="shuffle" class="w-5 h-5 text-violet-400"></i>
                     </div>
                     <p class="text-sm font-600 text-stone-900 mb-2">Matching nach Geburtstermin</p>
                     <p class="text-xs text-stone-400 leading-relaxed">Dein Kind ist im März geboren? Hier sind 12 andere März-Mütter. Ob ihr euch etwas zu sagen habt: Glückssache.</p>
                 </div>
                 <div class="bg-white rounded-2xl p-6 border border-stone-200">
-                    <div class="icon-box bg-amber-50 mb-4">
-                        <i data-lucide="clock" class="w-5 h-5 text-amber-500"></i>
+                    <div class="icon-box bg-violet-100 mb-4">
+                        <i data-lucide="clock" class="w-5 h-5 text-violet-400"></i>
                     </div>
                     <p class="text-sm font-600 text-stone-900 mb-2">Zeiten passen nie</p>
                     <p class="text-xs text-stone-400 leading-relaxed">Du arbeitest wieder und hast ab 15 Uhr Zeit. Die anderen Mütter im Kurs? Vormittags. Pech gehabt.</p>
                 </div>
                 <div class="bg-white rounded-2xl p-6 border border-stone-200">
-                    <div class="icon-box bg-amber-50 mb-4">
-                        <i data-lucide="user-x" class="w-5 h-5 text-amber-500"></i>
+                    <div class="icon-box bg-violet-100 mb-4">
+                        <i data-lucide="user-x" class="w-5 h-5 text-violet-400"></i>
                     </div>
                     <p class="text-sm font-600 text-stone-900 mb-2">Kontakt verliert sich</p>
                     <p class="text-xs text-stone-400 leading-relaxed">Selbst wenn du jemand Tolles triffst: Der Alltag frisst den Kontakt. Keiner schreibt zuerst. Beide warten.</p>
@@ -224,31 +218,27 @@
         <div class="max-w-3xl mx-auto">
             <p class="text-xs font-600 text-violet-400 uppercase tracking-wider mb-8 text-center fade-up font-mono">Das kennen viele</p>
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="quote-card bg-white rounded-2xl p-6 pt-10 border border-stone-200 fade-up">
+                <div class="quote-card bg-white rounded-2xl p-6 border border-stone-200 fade-up">
                     <p class="text-sm text-stone-600 leading-relaxed italic mb-4">
                         Mein ganzes Leben steht Kopf und ich brauche jemanden zum Reden, die dasselbe durchmacht. Aber nicht nur über Babybrei.
                     </p>
                     <div class="flex items-center gap-3">
-                        <div class="icon-box bg-violet-50">
-                            <i data-lucide="user" class="w-4 h-4 text-violet-300"></i>
-                        </div>
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Lisa" class="w-10 h-10 rounded-full object-cover">
                         <div>
                             <p class="text-xs font-600 text-stone-700">Lisa</p>
-                            <p class="text-[11px] text-stone-400">Kleinkind, 18 Monate</p>
+                            <p class="text-[11px] text-stone-400">Mama von Emma (18 Monate)</p>
                         </div>
                     </div>
                 </div>
-                <div class="quote-card bg-white rounded-2xl p-6 pt-10 border border-stone-200 fade-up">
+                <div class="quote-card bg-white rounded-2xl p-6 border border-stone-200 fade-up">
                     <p class="text-sm text-stone-600 leading-relaxed italic mb-4">
                         Ich habe im Geburtsvorbereitungskurs keine einzige Frau gefunden, mit der ich wirklich dieselben Interessen hatte.
                     </p>
                     <div class="flex items-center gap-3">
-                        <div class="icon-box bg-violet-50">
-                            <i data-lucide="user" class="w-4 h-4 text-violet-300"></i>
-                        </div>
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Anna" class="w-10 h-10 rounded-full object-cover">
                         <div>
                             <p class="text-xs font-600 text-stone-700">Anna</p>
-                            <p class="text-[11px] text-stone-400">Baby, 8 Monate</p>
+                            <p class="text-[11px] text-stone-400">Mama von Leo (8 Monate)</p>
                         </div>
                     </div>
                 </div>
